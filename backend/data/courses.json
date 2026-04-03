@@ -1,0 +1,9 @@
+[
+    {
+      "id": 1,
+      "name": "Node.js Basics",
+      "description": "Intro to backend",
+      "teacherId": 2,
+      "schedule": "Mon-Wed 9:00"
+    }
+  ]
