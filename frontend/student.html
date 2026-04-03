@@ -12,17 +12,19 @@
         <ul class="sidebar-menu">
             <li><a href="#my-classes" class="active">Khóa học & Lịch học</a></li>
             <li><a href="#my-grades">Bảng điểm</a></li>
-            <li><a href="index.html">Đăng xuất</a></li>
+            <li><a href="#" onclick="logout()">Đăng xuất</a></li>
         </ul>
     </aside>
 
     <main class="main-content">
         <div class="header">
-            <h2>Xin chào, Sinh viên (student1)</h2>
+            <h2>Xin chào, Sinh viên (<span id="student-name">...</span>)</h2>
         </div>
 
         <section id="my-classes">
             <h3 class="section-title">Khóa học đã đăng ký & Lịch học</h3>
+            <p style="margin-bottom: 15px; font-size: 14px; color: #7f8c8d;">
+            </p>
             <table>
                 <thead>
                     <tr>
@@ -30,23 +32,17 @@
                         <th>Tên Môn</th>
                         <th>Mô tả</th>
                         <th>Lịch học</th>
-                        <th>Học kỳ</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Node.js Basics</td>
-                        <td>Intro to backend</td>
-                        <td>Mon-Wed 9:00</td>
-                        <td>2024A</td>
-                    </tr>
-                </tbody>
+                <tbody id="student-courses-body">
+                    </tbody>
             </table>
         </section>
 
         <section id="my-grades">
             <h3 class="section-title">Bảng điểm của tôi</h3>
+            <p style="margin-bottom: 15px; font-size: 14px; color: #7f8c8d;">
+            </p>
             <table>
                 <thead>
                     <tr>
@@ -56,16 +52,56 @@
                         <th>Đánh giá</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="student-grades-body">
                     <tr>
                         <td>1</td>
                         <td>Node.js Basics</td>
-                        <td><strong style="color: #27ae60;">8.5</strong></td>
+                        <td><strong style="color: #27ae60;" id="demo-grade">8.5</strong></td>
                         <td>Đạt</td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
+
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        if (!currentUser || currentUser.role !== 'student') {
+            alert('Bạn không có quyền truy cập trang này!');
+            window.location.href = 'index.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        async function loadStudentData() {
+            document.getElementById('student-name').innerText = currentUser.username;
+
+            try {
+                const res = await fetch('/courses');
+                const courses = await res.json();
+                const tbody = document.getElementById('student-courses-body');
+                tbody.innerHTML = '';
+
+                courses.forEach(course => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${course.id}</td>
+                        <td>${course.name}</td>
+                        <td>${course.description}</td>
+                        <td><strong>${course.schedule || 'Chưa có lịch'}</strong></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu khóa học:", error);
+            }
+        }
+
+        window.onload = loadStudentData;
+    </script>
 </body>
 </html>
