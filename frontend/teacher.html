@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard">
+    <aside class="sidebar">
+        <div class="sidebar-header">Teacher Portal</div>
+        <ul class="sidebar-menu">
+            <li><a href="#my-courses" class="active">Lớp học của tôi</a></li>
+            <li><a href="#grading">Chấm điểm sinh viên</a></li>
+            <li><a href="index.html">Đăng xuất</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h2>Xin chào, Giảng viên (teacher1)</h2>
+        </div>
+
+        <section id="my-courses">
+            <h3 class="section-title">Các môn đang phụ trách & Lịch dạy</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Môn</th>
+                        <th>Tên môn</th>
+                        <th>Lịch dạy hiện tại</th>
+                        <th>Cập nhật lịch (Schedule)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Node.js Basics</td>
+                        <td>Mon-Wed 9:00</td>
+                        <td>
+                            <form style="display: flex; gap: 5px;">
+                                <input type="text" placeholder="Nhập lịch mới">
+                                <button type="button" class="btn btn-small">Lưu</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="grading">
+            <h3 class="section-title">Danh sách Sinh viên & Cập nhật điểm</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Khóa học</th>
+                        <th>Học kỳ</th>
+                        <th>Điểm hiện tại</th>
+                        <th>Cập nhật điểm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3</td>
+                        <td>student1</td>
+                        <td>Node.js Basics (ID: 1)</td>
+                        <td>2024A</td>
+                        <td>8.5</td>
+                        <td>
+                            <form style="display: flex; gap: 5px;">
+                                <input type="number" step="0.1" placeholder="Nhập điểm">
+                                <button type="button" class="btn btn-small">Cập nhật</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
