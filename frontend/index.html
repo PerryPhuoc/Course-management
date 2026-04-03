@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Course Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+    <div class="login-card">
+        <h2>Đăng Nhập Hệ Thống</h2>
+        <form onsubmit="event.preventDefault(); /* Tạm thời vô hiệu hóa submit thật */">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" placeholder="Nhập username (vd: admin)" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+            </div>
+            <button type="submit" class="btn" onclick="alert('Đây là Placeholder. Backend sẽ gọi /auth/login để điều hướng!')">Login</button>
+        </form>
+    </div>
+</body>
+</html>
