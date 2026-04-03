@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Course Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+    <div class="login-card">
+        <h2>Đăng Nhập Hệ Thống</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" placeholder="Nhập username (vd: admin)" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault(); // Ngăn form reload lại trang
+
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            try {
+                // Gọi API login của backend
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: usernameInput, password: passwordInput })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Lưu thông tin user vào localStorage để dùng sau này
+                    localStorage.setItem('user', JSON.stringify(data));
+                    
+                    // Điều hướng dựa trên role trả về từ backend
+                    if (data.role === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else if (data.role === 'teacher') {
+                        window.location.href = 'teacher.html';
+                    } else if (data.role === 'student') {
+                        window.location.href = 'student.html';
+                    }
+                } else {
+                    // Hiển thị lỗi từ backend (vd: "User not found" hoặc "Wrong password")
+                    alert('Đăng nhập thất bại: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Lỗi kết nối tới server:', error);
+                alert('Không thể kết nối tới server!');
+            }
+        }
+
+        // Dùng ID cụ thể để query form cho chắc chắn
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    </script>
+</body>
+</html>

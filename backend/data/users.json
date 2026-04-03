@@ -1,20 +1,32 @@
 [
-    {
-      "id": 1,
-      "username": "admin",
-      "password": "$2b$10$7QJQ1kzQxFzZ8kU7xq3c2e6pX9zF5Jr8J8Y0QZl1z8QeF7YhW6R3a",
-      "role": "admin"
-    },
-    {
-      "id": 2,
-      "username": "teacher1",
-      "password": "$2b$10$7QJQ1kzQxFzZ8kU7xq3c2e6pX9zF5Jr8J8Y0QZl1z8QeF7YhW6R3a",
-      "role": "teacher"
-    },
-    {
-      "id": 3,
-      "username": "student1",
-      "password": "$2b$10$7QJQ1kzQxFzZ8kU7xq3c2e6pX9zF5Jr8J8Y0QZl1z8QeF7YhW6R3a",
-      "role": "student"
-    }
-  ]
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "$2b$10$TUTohhXH0B3m.74kHQ8RD.TnFJZ/zFEdTyrm60MKG1JCqeevcp70K",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "username": "teacher1",
+    "password": "$2b$10$TUTohhXH0B3m.74kHQ8RD.TnFJZ/zFEdTyrm60MKG1JCqeevcp70K",
+    "role": "teacher"
+  },
+  {
+    "id": 3,
+    "username": "student1",
+    "password": "$2b$10$TUTohhXH0B3m.74kHQ8RD.TnFJZ/zFEdTyrm60MKG1JCqeevcp70K",
+    "role": "student"
+  },
+  {
+    "id": 1775230225581,
+    "username": "aaa",
+    "password": "$2b$10$LZsiLnmMV3GQyy.wg5zYAeIpDxQ0y5gqfWAChTltnKODIeWPT2jIi",
+    "role": "student"
+  },
+  {
+    "id": 1775230287668,
+    "username": "bbb",
+    "password": "$2b$10$iwIBbPPxN1pxBcT7qHsuhuf2D295Ivaa4J5elEpgH.hBa0uLK0dSa",
+    "role": "teacher"
+  }
+]
