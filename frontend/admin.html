@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard">
+    <aside class="sidebar">
+        <div class="sidebar-header">Admin Portal</div>
+        <ul class="sidebar-menu">
+            <li><a href="#stats" class="active">Thống kê chung</a></li>
+            <li><a href="#users">Quản lý User</a></li>
+            <li><a href="#courses">Quản lý Môn học</a></li>
+            <li><a href="index.html">Đăng xuất</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h2>Xin chào, Admin</h2>
+        </div>
+
+        <section id="stats">
+            <h3 class="section-title">Thống kê (Dữ liệu mẫu)</h3>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Tổng số User (Theo Role)</h3>
+                    <div class="stat">Admin: 1 | Teacher: 1 | Student: 1</div>
+                </div>
+                <div class="card">
+                    <h3>Tổng số Môn học</h3>
+                    <div class="stat">1 Môn</div>
+                </div>
+                <div class="card">
+                    <h3>Đăng ký theo Semester</h3>
+                    <div class="stat">2024A: 1</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="users">
+            <h3 class="section-title">Quản lý Người dùng</h3>
+            <div class="card" style="margin-bottom: 20px;">
+                <h4>Thêm User mới</h4>
+                <form style="display: flex; gap: 10px; margin-top: 10px;">
+                    <input type="text" placeholder="Username">
+                    <input type="password" placeholder="Password">
+                    <select>
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button type="button" class="btn btn-small" style="width: 150px;">Tạo User</button>
+                </form>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>admin</td>
+                        <td>admin</td>
+                        <td>
+                            <button class="btn btn-small">Sửa</button>
+                            <button class="btn btn-small btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>teacher1</td>
+                        <td>teacher</td>
+                        <td>
+                            <button class="btn btn-small">Sửa</button>
+                            <button class="btn btn-small btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="courses">
+            <h3 class="section-title">Quản lý Môn học</h3>
+            <div class="card" style="margin-bottom: 20px;">
+                <h4>Thêm Môn học mới</h4>
+                <form style="display: flex; gap: 10px; margin-top: 10px;">
+                    <input type="text" placeholder="Tên môn học">
+                    <input type="text" placeholder="Mô tả">
+                    <input type="number" placeholder="Teacher ID">
+                    <input type="text" placeholder="Lịch học (vd: Mon-Wed 9:00)">
+                    <button type="button" class="btn btn-small" style="width: 150px;">Tạo Môn</button>
+                </form>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên môn</th>
+                        <th>Mô tả</th>
+                        <th>Teacher ID</th>
+                        <th>Lịch học</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Node.js Basics</td>
+                        <td>Intro to backend</td>
+                        <td>2</td>
+                        <td>Mon-Wed 9:00</td>
+                        <td>
+                            <button class="btn btn-small">Sửa</button>
+                            <button class="btn btn-small btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
