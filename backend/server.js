@@ -1,10 +1,13 @@
 const express = require('express');
+const path = require('path'); 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-// Routes
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+
 app.use('/auth', require('./routes/auth'));
 app.use('/users', require('./routes/users'));
 app.use('/courses', require('./routes/courses'));

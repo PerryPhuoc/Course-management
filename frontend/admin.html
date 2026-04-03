@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard">
+    <aside class="sidebar">
+        <div class="sidebar-header">Admin Portal</div>
+        <ul class="sidebar-menu">
+            <li><a href="#stats" class="active">Thống kê chung</a></li>
+            <li><a href="#users">Quản lý User</a></li>
+            <li><a href="#courses">Quản lý Môn học</a></li>
+            <li><a href="#" onclick="logout()">Đăng xuất</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h2>Xin chào, Admin</h2>
+        </div>
+
+        <section id="stats">
+            <h3 class="section-title">Thống kê</h3>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Tổng số User (Theo Role)</h3>
+                    <div class="stat" id="stat-users">Đang tải...</div>
+                </div>
+                <div class="card">
+                    <h3>Tổng số Môn học</h3>
+                    <div class="stat" id="stat-courses">Đang tải...</div>
+                </div>
+                <div class="card">
+                    <h3>Đăng ký theo Semester</h3>
+                    <div class="stat" id="stat-enrollments">Đang tải...</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="users">
+            <h3 class="section-title">Quản lý Người dùng</h3>
+            <div class="card" style="margin-bottom: 20px;">
+                <h4>Thêm User mới</h4>
+                <form id="createUserForm" style="display: flex; gap: 10px; margin-top: 10px;">
+                    <input type="text" id="new-username" placeholder="Username" required>
+                    <input type="password" id="new-password" placeholder="Password" required>
+                    <select id="new-role">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button type="submit" class="btn btn-small" style="width: 150px;">Tạo User</button>
+                </form>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    </tbody>
+            </table>
+        </section>
+
+        <section id="courses">
+            <h3 class="section-title">Quản lý Môn học</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên môn</th>
+                        <th>Mô tả</th>
+                        <th>Teacher ID</th>
+                        <th>Lịch học</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="course-table-body">
+                    </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // --- KIỂM TRA ĐĂNG NHẬP ---
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        if (!currentUser || currentUser.role !== 'admin') {
+            alert('Bạn không có quyền truy cập trang này!');
+            window.location.href = 'index.html';
+        }
+
+        // --- ĐĂNG XUẤT ---
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        // --- HÀM KHỞI TẠO TẢI DỮ LIỆU ---
+        async function loadAdminData() {
+            try {
+                // 1. Tải Thống kê (Dựa trên statsController.js)
+                const statsRes = await fetch('/stats');
+                const statsData = await statsRes.json();
+                
+                // Hiển thị object người dùng (vd: admin: 1, teacher: 1...)
+                document.getElementById('stat-users').innerText = 
+                    Object.entries(statsData.usersByRole).map(([role, count]) => `${role}: ${count}`).join(' | ');
+                document.getElementById('stat-courses').innerText = `${statsData.totalCourses} Môn`;
+                document.getElementById('stat-enrollments').innerText = 
+                    Object.entries(statsData.enrollmentsBySemester).map(([sem, count]) => `${sem}: ${count}`).join(', ');
+
+                // 2. Tải danh sách User
+                loadUsers();
+
+                // 3. Tải danh sách Khóa học
+                loadCourses();
+
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu:", error);
+            }
+        }
+
+        // --- HÀM TẢI DANH SÁCH USER ---
+        async function loadUsers() {
+            const res = await fetch('/users');
+            const users = await res.json();
+            const tbody = document.getElementById('user-table-body');
+            tbody.innerHTML = ''; // Xóa dữ liệu cũ
+
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <button class="btn btn-small btn-danger" onclick="deleteUser(${user.id})">Xóa</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- HÀM TẢI DANH SÁCH KHÓA HỌC ---
+        async function loadCourses() {
+            const res = await fetch('/courses');
+            const courses = await res.json();
+            const tbody = document.getElementById('course-table-body');
+            tbody.innerHTML = '';
+
+            courses.forEach(course => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${course.id}</td>
+                    <td>${course.name}</td>
+                    <td>${course.description}</td>
+                    <td>${course.teacherId}</td>
+                    <td>${course.schedule}</td>
+                    <td>
+                        <button class="btn btn-small">Sửa</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- HÀM TẠO USER MỚI ---
+        document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+            const role = document.getElementById('new-role').value;
+
+            const res = await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, role })
+            });
+
+            if (res.ok) {
+                alert('Tạo User thành công!');
+                document.getElementById('createUserForm').reset(); // Xóa trắng form
+                loadUsers(); // Load lại bảng
+                loadAdminData(); // Cập nhật lại số liệu thống kê
+            }
+        });
+
+        // --- HÀM XÓA USER ---
+        async function deleteUser(id) {
+            if(!confirm('Bạn có chắc chắn muốn xóa user này?')) return;
+            
+            const res = await fetch(`/users/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                alert('Xóa thành công!');
+                loadUsers();
+                loadAdminData();
+            } else {
+                const data = await res.json();
+                alert('Lỗi: ' + data.message); // vd: "Cannot delete admin"
+            }
+        }
+
+        // Gọi hàm khi trang load xong
+        window.onload = loadAdminData;
+    </script>
+</body>
+</html>
